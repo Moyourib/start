@@ -555,14 +555,20 @@ fetch("/api")
 .then(res => res.json())
 .then( (res) => {
 	console.log(res);
+
 	var parent = document.getElementById('hotels-choices');
-	var option = document.createElement("option");
 	console.log(parent);
 	res[0].forEach(function(hotels){
-		parent.append(option , hotels.name);
+		var option = document.createElement("option");
+		option.text = hotels.name;
+		parent.append(option);
+//it works! repeat for activities and restaurants
 	})
 })
 .catch(console.err);
+
+
+		// parent.append(option , hotels.name);
 
 //find elements by id (mdn)
 //find parent, crete element by id
