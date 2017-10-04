@@ -3,6 +3,8 @@ const buildMarker = require("./marker.js");
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibW9tb2IiLCJhIjoiY2o4YnJlMXZlMDEwdzMzbzB1bzMwNmhyaCJ9.iP2BkAmejYEP4qPuxiSBJw';
 
+console.log(fetch);
+
 const map = new mapboxgl.Map({
   container: "map",
   center: [-74.009, 40.705], // FullStack coordinates
@@ -12,3 +14,7 @@ const map = new mapboxgl.Map({
 
 const marker = buildMarker("activities", [-74.009, 40.705]);
 marker.addTo(map);
+
+fetch("/api/attractions")
+.then(res => res.json())
+.then(console.log);

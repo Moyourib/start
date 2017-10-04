@@ -15,18 +15,18 @@ var Place = db.define( 'place', {
 var Hotel = db.define( 'hotel', {
 	name: {type: Sequelize.STRING},
 	num_stars: {type: Sequelize.FLOAT},
-	amenities: {type: Sequelize.STRING},
+	amenities: {type: Sequelize.STRING}
 })
 
 var Activity = db.define( 'activity', {
 	name: {type: Sequelize.STRING},
-	age_range: {type: Sequelize.STRING},
+	age_range: {type: Sequelize.STRING}
 })
 
 var Restaurant = db.define( 'restaurant', {
 	name: {type: Sequelize.STRING},
 	cuisine: {type: Sequelize.STRING},
-	price: {type: Sequelize.INTEGER},
+	price: {type: Sequelize.INTEGER}
 })
 //---------^^^---------  your code above  ---------^^^----------
 
