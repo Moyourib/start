@@ -8,13 +8,14 @@ var Place = db.define( 'place', {
 	city: {type: Sequelize.STRING},
 	state: {type: Sequelize.STRING},
 	phone: {type: Sequelize.STRING},
+	//location: {type: Sequelize.ARRAY(Sequelize.FLOAT)}
 	latitude: {type: Sequelize.FLOAT},
 	longitude: {type: Sequelize.FLOAT}
 })
 
 var Hotel = db.define( 'hotel', {
 	name: {type: Sequelize.STRING},
-	num_stars: {type: Sequelize.FLOAT},
+	num_stars: {type: Sequelize.FLOAT(1,5)},
 	amenities: {type: Sequelize.STRING}
 })
 
@@ -26,9 +27,11 @@ var Activity = db.define( 'activity', {
 var Restaurant = db.define( 'restaurant', {
 	name: {type: Sequelize.STRING},
 	cuisine: {type: Sequelize.STRING},
-	price: {type: Sequelize.INTEGER}
+	price: {
+		type: Sequelize.INTEGER,
+		validate: {min: 1, max:5}
+	}
 })
-//---------^^^---------  your code above  ---------^^^----------
 
 Hotel.belongsTo(Place);
 Activity.belongsTo(Place);

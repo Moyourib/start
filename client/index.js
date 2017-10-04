@@ -3,8 +3,6 @@ const buildMarker = require("./marker.js");
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibW9tb2IiLCJhIjoiY2o4YnJlMXZlMDEwdzMzbzB1bzMwNmhyaCJ9.iP2BkAmejYEP4qPuxiSBJw';
 
-// console.log(fetch);
-
 const map = new mapboxgl.Map({
   container: "map",
   center: [-74.009, 40.705], // FullStack coordinates
@@ -15,34 +13,58 @@ const map = new mapboxgl.Map({
 const marker = buildMarker("activities", [-74.009, 40.705]);
 marker.addTo(map);
 
+let attractionsObj;
+const attractionTypes = ["hotels", "restaurants", "activities"];
+
 fetch("/api")
-.then(res => res.json())
-.then( (res) => {
-	console.log(res);
+.then( (res) => res.json() )
+.then( (data) => {
+	attractionTypes.forEach( (attractionType, i) => {
+		attractionsObj = data;
+		attractionsObj[i].forEach(attraction => {	
+			const option = document.createElement("option");
+			option.text = attraction.name;
+			option.value = attraction.id;
+			const parent = document.getElementById(`${attractionType}-choices`);
+			parent.append(option);
+		});
+	});
+	//appending one id element
+	// var parentHotel = document.getElementById('hotels-choices');
+	// attractions[0].forEach(function(hotels) {
+	// 	var option = document.createElement("option");
+	// 	option.text = hotels.name;
+	// 	parentHotel.append(option);
+	// })
+});
 
-	var parent = document.getElementById('hotels-choices');
-	console.log(parent);
-	res[0].forEach(function(hotels){
-		var option = document.createElement("option");
-		option.text = hotels.name;
-		parent.append(option);
-//it works! repeat for activities and restaurants
-	})
-})
-.catch(console.err);
+attractionTypes.forEach(attractionType => {
+	const btn = document.getElementById(`${attractionType}-add`);
+	btn.onclick = function() {
+		const select = document.getElementById(`${attractionType}-choices`);
+		const selected = select.value;
+
+		//create an element
+		const itinItem = document.createElement("li");
+		const attraction = attractionsObj[attractionType].find((el) => el.id == selected);
+		itinItem.text = attraction.name;
+		
+		//remove button and remove item from bottom list
+		const removeBtn = document.createElement("button");
+		removeBtn.text = "x";
+		removeBtn.onclick = () => {
+			itinItem.remove();
+			//remove marker
+			marker.remove(map);
+		};
+		itinItem.append(removeBtn);
 
 
-		// parent.append(option , hotels.name);
-
-//find elements by id (mdn)
-//find parent, crete element by id
-//and append this child (hotel, attraction, etc)
-
-//in the refactoring , we turn each of the hotels, activities, restaurent etc, into its own object
-//we can call the object, and then run a forEach loop through the object, and fore
-//each "hotel, or whatever", we create a child
-//so we use parentNode.append, where we append the child, in this case, the individual
-//hotel, 
-//to the div options main parent, which is hotel-choices
-//once it's appended, we can then see it within the options tags, 
-//and it will show up on the dropdown
+		//add to bottom list
+		const itinList = document.getElementById(`${attractionType}-list`);
+		itinList.appened(itinItem)
+		//make marker
+		const marker = buildMarker(attractionType, attraction.place.location);
+		marker.addTo(map);
+	};
+});
