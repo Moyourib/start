@@ -3,7 +3,7 @@ const buildMarker = require("./marker.js");
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibW9tb2IiLCJhIjoiY2o4YnJlMXZlMDEwdzMzbzB1bzMwNmhyaCJ9.iP2BkAmejYEP4qPuxiSBJw';
 
-console.log(fetch);
+// console.log(fetch);
 
 const map = new mapboxgl.Map({
   container: "map",
@@ -15,6 +15,28 @@ const map = new mapboxgl.Map({
 const marker = buildMarker("activities", [-74.009, 40.705]);
 marker.addTo(map);
 
-fetch("/api/attractions")
+fetch("/api")
 .then(res => res.json())
-.then(console.log);
+.then( (res) => {
+	console.log(res);
+	var parent = document.getElementById('hotels-choices');
+	var option = document.createElement("option");
+	console.log(parent);
+	res[0].forEach(function(hotels){
+		parent.append(option , hotels.name);
+	})
+})
+.catch(console.err);
+
+//find elements by id (mdn)
+//find parent, crete element by id
+//and append this child (hotel, attraction, etc)
+
+//in the refactoring , we turn each of the hotels, activities, restaurent etc, into its own object
+//we can call the object, and then run a forEach loop through the object, and fore
+//each "hotel, or whatever", we create a child
+//so we use parentNode.append, where we append the child, in this case, the individual
+//hotel, 
+//to the div options main parent, which is hotel-choices
+//once it's appended, we can then see it within the options tags, 
+//and it will show up on the dropdown

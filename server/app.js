@@ -31,8 +31,6 @@ app.use(function(err, req, res, next){
 	res.send('Something went wrong!', err.message);
 }); */
 
-
-
 const port = 3000;
 app.listen(port, function() {
   console.log("The server is listening closely on port", port);

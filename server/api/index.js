@@ -15,32 +15,36 @@ const router = require('express').Router();
 
 
 router.get('/api', function(req, res, next) {
-    var allAttractions = {};
+//     var allAttractions = {};
     
-    Hotel.findAll( {include: [{all:true}]} )
-    .then(function(hotels) {
-      allAttractions.hotels = hotels;
-      return Restaurant.findAll( {include: [{all:true}]} );
-    })
-    .then(function(restaurants) {
-      allAttractions.restaurants = restaurants;
-      return Activity.findAll( {include: [{all:true}]} );
-    })
-    .then(function(activities) {
-      allAttractions.activities = activities;
-    })
-    .then(function() {
-      res.json(allAttractions);
-    })
-    .catch(next);
-})
+//     Hotel.findAll( {include: [{all:true}]} )
+//     .then(function(hotels) {
+//       allAttractions.hotels = hotels;
+//       return Restaurant.findAll( {include: [{all:true}]} );
+//     })
+//     .then(function(restaurants) {
+//       allAttractions.restaurants = restaurants;
+//       return Activity.findAll( {include: [{all:true}]} );
+//     })
+//     .then(function(activities) {
+//       allAttractions.activities = activities;
+//     })
+//     .then(console.log(allAttractions))
+//     .then(function() {
+//       res.json(allAttractions);
+//     })
+//     .catch(next);
+// })
 
-/* Promise.all([
+Promise.all([
   Hotel.findAll(),
-  Activity.findAll(),
-  Restaurant.findAll()
+  Restaurant.findAll(),
+  Activity.findAll()
 ])
-.then() */
+.then((allAttractions) => {
+  res.json(allAttractions)
+})
+});
 
 router.use(function(req, res, next) {
     next();
